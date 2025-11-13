@@ -105,7 +105,7 @@ export default function LevelUpNotification({ open, onOpenChange, show, onClose,
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1)
     } else {
-      handleClose()
+      handleClose?.()
     }
   }
 
@@ -129,7 +129,7 @@ export default function LevelUpNotification({ open, onOpenChange, show, onClose,
                 <Sparkles className="h-5 w-5 mr-2" />
                 <h2 className="font-bold text-lg">Nível Alcançado!</h2>
               </div>
-              <Badge className="bg-yellow-600">+{level * 50} XP</Badge>
+              <Badge className="bg-yellow-600">+{currentLevel * 50} XP</Badge>
             </div>
 
             <div className="p-6">

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
-import { ThemeType } from "./theme-selector"
+import { ThemeType } from "@/lib/config"
 
 interface ThemeAnimationsProps {
   theme: ThemeType

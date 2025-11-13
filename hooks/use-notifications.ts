@@ -1,7 +1,7 @@
 // hooks/use-notifications.ts
 
 import { useState, useEffect, useCallback } from 'react';
-import { Notification, NotificationService, notificationService } from '../lib/notification-service'; // Importa a tipagem e o serviço
+import { Notification, NotificationService, notificationService, NotificationType } from '../lib/notification-service'; // Importa a tipagem e o serviço
 import { useToast } from './use-toast'; // Assumindo que este hook já existe para exibir toasts
 
 /**

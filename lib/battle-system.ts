@@ -305,8 +305,9 @@ class BattleSystemService {
       const response = await fetch('/api/questions')
       const questionsData = await response.json()
       
-      const difficultyQuestions = questionsData[room.settings.difficulty] || []
-      const selectedQuestions = this.shuffleArray(difficultyQuestions)
+      type RoomQuestion = BattleRoom['questions'][number]
+      const difficultyQuestions = (questionsData[room.settings.difficulty] || []) as RoomQuestion[]
+      const selectedQuestions = this.shuffleArray<RoomQuestion>(difficultyQuestions)
         .slice(0, room.settings.questionsCount)
 
       room.questions = selectedQuestions

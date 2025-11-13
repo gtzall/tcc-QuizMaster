@@ -57,17 +57,34 @@ export function BossBattle({ sceneUrl = '' }: { sceneUrl?: string }) {
     return () => clearInterval(t)
   }, [started, finished, mode, perQuestionTime])
 
+  const getUsedIds = () => {
+    try { return JSON.parse(localStorage.getItem('usedQuestionIds') || '[]') as string[] } catch { return [] }
+  }
+
+  const addUsedIds = (ids: string[]) => {
+    try {
+      const used = new Set<string>(getUsedIds())
+      ids.forEach(id => used.add(String(id)))
+      localStorage.setItem('usedQuestionIds', JSON.stringify(Array.from(used)))
+    } catch {}
+  }
+
   const loadQuestions = async () => {
     setLoading(true)
     try {
       // Hard boss = dificil
-      const res = await fetch(`/api/questions?difficulty=dificil`)
+      const usedIds = getUsedIds()
+      const params = new URLSearchParams()
+      params.set('difficulty', 'dificil')
+      if (usedIds.length) params.set('exclude', usedIds.join(','))
+      const res = await fetch(`/api/questions?${params.toString()}`)
       const data = await res.json()
-      const pool: BossQuestion[] = Array.isArray(data.dificil) ? data.dificil : []
+      const pool: (BossQuestion & { id?: string })[] = Array.isArray(data.dificil) ? data.dificil : []
       // shuffle and take at least 30
       const shuffled = [...pool].sort(() => 0.5 - Math.random())
       const picked = (mode === 'endless' ? shuffled : shuffled.slice(0, questionCount))
       setQuestions(picked)
+      addUsedIds(picked.map(p => String((p as any).id ?? '')))
       setIndex(0)
       setSelected(null)
       setPlayerHP(100)
@@ -103,11 +120,14 @@ export function BossBattle({ sceneUrl = '' }: { sceneUrl?: string }) {
       if (mode !== 'endless') {
         if (index + 1 >= Math.min(questionCount, questions.length) || bossHP - damage <= 0 || playerHP - (correct ? 0 : damage) <= 0) {
           setFinished(true)
+          // persist used questions just in case
+          addUsedIds(questions.map(q => String((q as any).id ?? '')))
           return
         }
       } else {
         if (bossHP - damage <= 0 || playerHP - (correct ? 0 : damage) <= 0) {
           setFinished(true)
+          addUsedIds(questions.map(q => String((q as any).id ?? '')))
           return
         }
       }
@@ -135,15 +155,8 @@ export function BossBattle({ sceneUrl = '' }: { sceneUrl?: string }) {
           {/* Left: Arena */}
           <div className="flex-1">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center">
-                  <Crown className="w-8 h-8" />
-                </div>
-                <div>
-                  <h1 className="text-3xl font-bold">Boss Battle</h1>
-                  <p className="text-gray-300">Enfrente o Mestre do Conhecimento</p>
-                </div>
-              </div>
+              <h1 className="text-3xl font-bold">Batalha com a Magistrada</h1>
+              <p className="text-gray-300">Mostre seu conhecimento e derrote a Magistrada</p>
             </motion.div>
 
             {!started && !finished && (
@@ -187,14 +200,18 @@ export function BossBattle({ sceneUrl = '' }: { sceneUrl?: string }) {
                 <div className="grid grid-cols-2 gap-3">
                   <Card className="bg-gray-800/50 border-gray-700/50">
                     <CardContent className="pt-4">
-                      <div className="flex items-center justify-between mb-2"><span>Você</span><span className="text-sm text-gray-400">HP {playerHP}</span></div>
-                      <Progress value={playerHP} />
+                      <div className="flex items-center justify-between mb-2"><span>Você</span><span className="text-sm text-gray-400">{playerHP}%</span></div>
+                      <div className="relative h-3 rounded-full overflow-hidden bg-gray-700">
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500" style={{ width: `${playerHP}%` }} />
+                      </div>
                     </CardContent>
                   </Card>
                   <Card className="bg-gray-800/50 border-gray-700/50">
                     <CardContent className="pt-4">
-                      <div className="flex items-center justify-between mb-2"><span>Boss</span><span className="text-sm text-gray-400">HP {bossHP}</span></div>
-                      <Progress value={bossHP} />
+                      <div className="flex items-center justify-between mb-2"><span>Magistrada</span><span className="text-sm text-gray-400">{bossHP}%</span></div>
+                      <div className="relative h-3 rounded-full overflow-hidden bg-gray-700">
+                        <div className="absolute inset-0 bg-gradient-to-r from-rose-500 to-pink-500" style={{ width: `${bossHP}%` }} />
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -249,8 +266,8 @@ export function BossBattle({ sceneUrl = '' }: { sceneUrl?: string }) {
             )}
           </div>
 
-          {/* Right: Boss (Spline) */}
-          <div className="lg:w-[38%] w-full h-[360px] lg:h-[680px] bg-gray-800/30 border border-gray-700/50 rounded-2xl overflow-hidden">
+          {/* Right: Magistrada (Spline) */}
+          <div className="lg:w-[38%] w-full h-[360px] lg:h-[680px] overflow-hidden">
             {sceneUrl ? (
               <SplineScene scene={sceneUrl} className="w-full h-full" />
             ) : (

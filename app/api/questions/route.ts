@@ -34,6 +34,8 @@ export async function GET(request: Request) {
   const filterSubject = url.searchParams.get('subject') || undefined
   const filterTopic = url.searchParams.get('topic') || undefined
   const filterDiff = url.searchParams.get('difficulty') as ('facil' | 'medio' | 'dificil' | null)
+  const excludeParam = url.searchParams.get('exclude') || ''
+  const exclude = new Set(excludeParam.split(',').map(s => s.trim()).filter(Boolean))
   const data = await readQuestionsFile()
 
   const ensureArray = (x: any) => Array.isArray(x) ? x : []
@@ -43,7 +45,14 @@ export async function GET(request: Request) {
 
   const areas = new Set(['Provas','Cursos','Programas','Escola','Universidades','Estatísticas'])
 
+  const hashId = (s: string) => {
+    let h = 0
+    for (let i = 0; i < s.length; i++) { h = (h << 5) - h + s.charCodeAt(i); h |= 0 }
+    return 'q_' + Math.abs(h).toString(36)
+  }
+
   const mapCompiled = (q: QuizQuestion) => ({
+    id: hashId(`${q.subject}|${q.topic}|${q.question}|${q.correctAnswer}`),
     enunciado: q.question,
     alternativas: q.options,
     respostaCorreta: q.correctAnswer,
@@ -54,6 +63,7 @@ export async function GET(request: Request) {
   })
 
   const fromSubjects = Object.values(subjectQuestions).flat().map((q) => ({
+    id: hashId(`${q.subject}|${q.topic}|${q.question}|${q.correctAnswer}`),
     enunciado: q.question,
     alternativas: q.options,
     respostaCorreta: q.correctAnswer,
@@ -70,49 +80,47 @@ export async function GET(request: Request) {
     dificil: compiledQuestions.filter(q => q.difficulty === 'dificil').map(mapCompiled),
   }
 
-  const fillToMin = (arr: any[], min: number) => {
-    if (arr.length >= min) return arr
-    const out = [...arr]
-    let i = 0
-    while (out.length < min && arr.length > 0) {
-      out.push(arr[i % arr.length])
-      i++
-    }
-    return out
+  // No duplication padding: always return unique items only
+  const uniqueById = (arr: any[]) => {
+    const seen = new Set<string>()
+    return arr.filter((q) => {
+      const id = String(q.id ?? hashId(`${q.subject}|${q.tema}|${q.enunciado}|${q.respostaCorreta}`))
+      if (seen.has(id)) return false
+      seen.add(id)
+      return true
+    })
   }
 
-  if (facil.length < 30) {
-    const extra = [
-      ...compiledByDiff.facil,
-      ...fromSubjects.filter(q => q.dificuldade === 'facil')
-    ]
-    facil = fillToMin([...facil, ...extra], 30)
-  }
-  if (medio.length < 30) {
-    const extra = [
-      ...compiledByDiff.medio,
-      ...fromSubjects.filter(q => q.dificuldade === 'medio')
-    ]
-    medio = fillToMin([...medio, ...extra], 30)
-  }
-  if (dificil.length < 30) {
-    const extra = [
-      ...compiledByDiff.dificil,
-      ...fromSubjects.filter(q => q.dificuldade === 'dificil')
-    ]
-    dificil = fillToMin([...dificil, ...extra], 30)
-  }
+  // Merge with compiled pools to increase availability, then enforce uniqueness
+  facil = uniqueById([
+    ...facil,
+    ...compiledByDiff.facil,
+    ...fromSubjects.filter(q => q.dificuldade === 'facil')
+  ])
+  medio = uniqueById([
+    ...medio,
+    ...compiledByDiff.medio,
+    ...fromSubjects.filter(q => q.dificuldade === 'medio')
+  ])
+  dificil = uniqueById([
+    ...dificil,
+    ...compiledByDiff.dificil,
+    ...fromSubjects.filter(q => q.dificuldade === 'dificil')
+  ])
 
   // Map area for existing items
   const mapArea = (q: any) => ({
+    id: q.id ?? hashId(`${q.subject}|${q.tema}|${q.enunciado}|${q.respostaCorreta}`),
     ...q,
     area: q.area ?? (areas.has(q.tema) ? q.tema : undefined)
   })
 
+  const byExclude = (arr: any[]) => arr.filter(q => !exclude.has(String(q.id)))
+
   const payload = {
-    facil: facil.map(mapArea),
-    medio: medio.map(mapArea),
-    dificil: dificil.map(mapArea)
+    facil: byExclude(facil.map(mapArea)),
+    medio: byExclude(medio.map(mapArea)),
+    dificil: byExclude(dificil.map(mapArea))
   }
 
   if (!filterSubject && !filterTopic && !filterDiff) {
@@ -131,11 +139,10 @@ export async function GET(request: Request) {
     dificil: filterDiff && filterDiff !== 'dificil' ? [] : applyFilters(payload.dificil)
   }
 
-  // Ensure minimum again after filters
   return NextResponse.json({
-    facil: fillToMin(filtered.facil, 30),
-    medio: fillToMin(filtered.medio, 30),
-    dificil: fillToMin(filtered.dificil, 30)
+    facil: filtered.facil,
+    medio: filtered.medio,
+    dificil: filtered.dificil
   })
 }
 

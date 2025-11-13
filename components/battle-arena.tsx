@@ -200,6 +200,14 @@ export function BattleArena() {
       window.location.href = '/battle/boss'
       return
     }
+    if (mode.id === 'survival') {
+      window.location.href = '/battle/survival'
+      return
+    }
+    if (mode.id === 'team-conquest') {
+      window.location.href = '/battle/team-conquest'
+      return
+    }
 
     setSelectedMode(mode)
     setIsSearching(true)

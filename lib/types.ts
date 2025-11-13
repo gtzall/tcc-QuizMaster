@@ -427,3 +427,6 @@ export interface UseMutationResult<T, V> {
   mutate: (variables: V) => void
   reset: () => void
 }
+
+// Re-export selected config types for convenience
+export type { ThemeType, AchievementCategory, AchievementRarity } from './config'

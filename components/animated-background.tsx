@@ -6,16 +6,16 @@ export default function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const c = canvasRef.current as HTMLCanvasElement
+    if (!c) return
 
-    const ctx = canvas.getContext("2d")
+    const ctx = c.getContext("2d")
     if (!ctx) return
 
     // Set canvas dimensions
     const setCanvasDimensions = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      c.width = window.innerWidth
+      c.height = window.innerHeight
     }
 
     setCanvasDimensions()
@@ -31,8 +31,8 @@ export default function AnimatedBackground() {
       color: string
 
       constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * canvas.height
+        this.x = Math.random() * c.width
+        this.y = Math.random() * c.height
         this.size = Math.random() * 3 + 1
         this.speedX = Math.random() * 0.5 - 0.25
         this.speedY = Math.random() * 0.5 - 0.25
@@ -43,8 +43,8 @@ export default function AnimatedBackground() {
         this.x += this.speedX
         this.y += this.speedY
 
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1
+        if (this.x < 0 || this.x > c.width) this.speedX *= -1
+        if (this.y < 0 || this.y > c.height) this.speedY *= -1
       }
 
       draw() {
@@ -58,7 +58,7 @@ export default function AnimatedBackground() {
 
     // Create particles
     const particles: Particle[] = []
-    const particleCount = Math.min(100, Math.floor((canvas.width * canvas.height) / 10000))
+    const particleCount = Math.min(100, Math.floor((c.width * c.height) / 10000))
 
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle())
@@ -67,7 +67,7 @@ export default function AnimatedBackground() {
     // Animation loop
     const animate = () => {
       if (!ctx) return
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, c.width, c.height)
 
       // Draw connections
       ctx.strokeStyle = "rgba(50, 100, 200, 0.05)"

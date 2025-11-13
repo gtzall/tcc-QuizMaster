@@ -12,7 +12,6 @@ import {
   Eye, 
   Timer, 
   Crown, 
-  Fire,
   Heart,
   Star,
   Target,

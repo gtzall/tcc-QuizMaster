@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { 
   Menu, 
   X, 
-  Search, 
   Bell, 
   User, 
   Settings,
@@ -20,10 +19,13 @@ import {
   Swords,
   Trophy,
   BookOpen,
-  BarChart3
+  BarChart3,
+  ChevronDown,
+  Shield,
+  Users
 } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { useTheme } from '@/contexts/theme-context'
 import { useAchievements } from '@/contexts/achievements-context'
@@ -40,7 +42,20 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 export function SmartNavigation() {
-  const [isOpen, setIsOpen] = useState(false)
+  const ICONS: Record<string, LucideIcon> = {
+    Home,
+    Gamepad2,
+    Book,
+    Award,
+    Swords,
+    User,
+    Trophy,
+    BookOpen,
+    BarChart3,
+    Settings,
+  }
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [notifications, setNotifications] = useState([
     {
@@ -104,138 +119,90 @@ export function SmartNavigation() {
 
   return (
     <nav className="bg-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo e Stats do Usuário */}
-          <div className="flex items-center space-x-6">
-            <Link href="/" className="flex items-center space-x-2">
-              <motion.div
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg"
-              >
-                <span className="text-white font-bold text-xl">Q</span>
-              </motion.div>
-              <div className="hidden sm:block">
-                <span className="text-xl font-bold text-white">
-                  {APP_CONFIG.name}
-                </span>
-                <p className="text-xs text-gray-400 -mt-1">Plataforma Educacional</p>
-              </div>
-            </Link>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+        <div className="flex items-center h-16">
 
-            {/* User Quick Stats */}
-            <div className="hidden lg:flex items-center space-x-4 ml-6 pl-6 border-l border-gray-700/50">
-              <motion.div 
-                className="flex items-center space-x-2 bg-gray-800/30 rounded-full px-3 py-1.5"
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-gray-300">Nível 15</span>
-              </motion.div>
-              
-              <motion.div 
-                className="flex items-center space-x-2 bg-gray-800/30 rounded-full px-3 py-1.5"
-                whileHover={{ scale: 1.05 }}
-              >
-                <Trophy className="w-3 h-3 text-yellow-400" />
-                <span className="text-sm text-gray-300">1,250 XP</span>
-              </motion.div>
-              
-              <motion.div 
-                className="flex items-center space-x-2 bg-gray-800/30 rounded-full px-3 py-1.5"
-                whileHover={{ scale: 1.05 }}
-              >
-                <Award className="w-3 h-3 text-purple-400" />
-                <span className="text-sm text-gray-300">12 Conquistas</span>
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - aligned left */}
           <div className="hidden md:flex items-center space-x-6">
             {NAVIGATION_ITEMS.map((item) => {
-              const Icon = {
-                Home,
-                Gamepad2,
-                Book,
-                Award,
-                Swords,
-                User,
-                Trophy,
-                BookOpen,
-                BarChart3,
-                Settings
-              }[item.icon as keyof typeof import('lucide-react')];
+              const Icon = ICONS[item.icon]
 
               // Dropdown for Jogar (includes Biblioteca)
               if (item.label === 'Jogar') {
                 return (
-                  <DropdownMenu key={item.href}>
-                    <DropdownMenuTrigger asChild>
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        <Link
-                          href={item.href}
-                          className="group relative flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200"
-                        >
+                  <div key={item.href} className="flex items-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="group relative flex items-center space-x-2 h-10 px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200">
                           {Icon && <Icon className="w-4 h-4" />}
                           <span className="text-sm font-medium">{item.label}</span>
                           <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full group-hover:w-full transition-all duration-300" />
-                        </Link>
-                      </motion.div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="bg-gray-800 border-gray-700 text-gray-200">
-                      <DropdownMenuLabel className="text-gray-400">Jogar</DropdownMenuLabel>
-                      <DropdownMenuItem asChild>
-                        <Link href="/game" className="flex items-center gap-2">
-                          <Gamepad2 className="w-4 h-4" />
-                          Início do Jogo
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-gray-700" />
-                      <DropdownMenuItem asChild>
-                        <Link href="/library" className="flex items-center gap-2">
-                          <BookOpen className="w-4 h-4" />
-                          Biblioteca
-                        </Link>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="bg-gray-800 border-gray-700 text-gray-200">
+                        <DropdownMenuLabel className="text-gray-400">Jogar</DropdownMenuLabel>
+                        <DropdownMenuItem asChild>
+                          <Link href="/game" className="flex items-center gap-2">
+                            <Gamepad2 className="w-4 h-4" />
+                            Início do Jogo
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="bg-gray-700" />
+                        <DropdownMenuItem asChild>
+                          <Link href="/library" className="flex items-center gap-2">
+                            <BookOpen className="w-4 h-4" />
+                            Biblioteca
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="bg-gray-700" />
+                        <DropdownMenuItem asChild>
+                          <Link href="/battle/survival" className="flex items-center gap-2">
+                            <Shield className="w-4 h-4" />
+                            Survival Mode
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/battle/team-conquest" className="flex items-center gap-2">
+                            <Users className="w-4 h-4" />
+                            Team Conquest
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 )
               }
 
               // Dropdown for Perfil (includes Conquistas)
               if (item.label === 'Perfil') {
                 return (
-                  <DropdownMenu key={item.href}>
-                    <DropdownMenuTrigger asChild>
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        <Link
-                          href={item.href}
-                          className="group relative flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200"
-                        >
+                  <div key={item.href} className="flex items-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="group relative flex items-center space-x-2 h-10 px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200">
                           {Icon && <Icon className="w-4 h-4" />}
                           <span className="text-sm font-medium">{item.label}</span>
                           <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full group-hover:w-full transition-all duration-300" />
-                        </Link>
-                      </motion.div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="bg-gray-800 border-gray-700 text-gray-200">
-                      <DropdownMenuLabel className="text-gray-400">Perfil</DropdownMenuLabel>
-                      <DropdownMenuItem asChild>
-                        <Link href="/profile" className="flex items-center gap-2">
-                          <User className="w-4 h-4" />
-                          Meu Perfil
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-gray-700" />
-                      <DropdownMenuItem asChild>
-                        <Link href="/achievements" className="flex items-center gap-2">
-                          <Trophy className="w-4 h-4" />
-                          Conquistas
-                        </Link>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="bg-gray-800 border-gray-700 text-gray-200">
+                        <DropdownMenuLabel className="text-gray-400">Perfil</DropdownMenuLabel>
+                        <DropdownMenuItem asChild>
+                          <Link href="/profile" className="flex items-center gap-2">
+                            <User className="w-4 h-4" />
+                            Meu Perfil
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="bg-gray-700" />
+                        <DropdownMenuItem asChild>
+                          <Link href="/achievements" className="flex items-center gap-2">
+                            <Trophy className="w-4 h-4" />
+                            Conquistas
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 )
               }
 
@@ -247,7 +214,7 @@ export function SmartNavigation() {
                 >
                   <Link
                     href={item.href}
-                    className="group relative flex items-center space-x-2 px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200"
+                    className="group relative flex items-center space-x-2 h-10 px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200"
                   >
                     {Icon && <Icon className="w-4 h-4" />}
                     <span className="text-sm font-medium">{item.label}</span>
@@ -263,21 +230,8 @@ export function SmartNavigation() {
             })}
           </div>
 
-          {/* Right Side */}
-          <div className="flex items-center space-x-4">
-            {/* Search */}
-            <form onSubmit={handleSearch} className="hidden lg:block">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  type="text"
-                  placeholder="Buscar quizzes, matérias..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-64 pl-10 pr-4 bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
-                />
-              </div>
-            </form>
+          {/* push right controls */}
+          <div className="ml-auto flex items-center space-x-4">
 
             {/* Theme Toggle */}
             <Button
@@ -295,7 +249,10 @@ export function SmartNavigation() {
                 variant="ghost"
                 size="sm"
                 className="text-gray-400 hover:text-white hover:bg-gray-700/50 relative"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                  setIsNotificationsOpen((v) => !v)
+                  setIsMobileMenuOpen(false)
+                }}
               >
                 <Bell className="w-4 h-4" />
                 {unreadNotifications > 0 && (
@@ -307,7 +264,7 @@ export function SmartNavigation() {
 
               {/* Notifications Dropdown */}
               <AnimatePresence>
-                {isOpen && (
+                {isNotificationsOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -322,7 +279,7 @@ export function SmartNavigation() {
                           variant="ghost"
                           size="sm"
                           className="text-gray-400 hover:text-white"
-                          onClick={() => setIsOpen(false)}
+                          onClick={() => setIsNotificationsOpen(false)}
                         >
                           <X className="w-4 h-4" />
                         </Button>
@@ -403,8 +360,11 @@ export function SmartNavigation() {
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden text-gray-400 hover:text-white hover:bg-gray-700/50"
-              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden text-gray-400 hover:text-white hover:bg-gray-700/50 fixed top-3 right-4 z-50"
+              onClick={() => {
+                setIsMobileMenuOpen((v) => !v)
+                setIsNotificationsOpen(false)
+              }}
             >
               <Menu className="w-5 h-5" />
             </Button>
@@ -413,32 +373,22 @@ export function SmartNavigation() {
 
         {/* Mobile Navigation */}
         <AnimatePresence>
-          {isOpen && (
+          {isMobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-gray-700/50"
+              className="md:hidden border-t border-gray-700/50 fixed top-16 left-0 right-0 bg-gray-900/95 backdrop-blur-xl z-40"
             >
               <div className="px-2 pt-2 pb-3 space-y-1">
                 {NAVIGATION_ITEMS.map((item) => {
-                  const Icon = {
-                    Home,
-                    Gamepad2,
-                    Book,
-                    Award,
-                    Swords,
-                    User,
-                    Trophy,
-                    BookOpen,
-                    BarChart3,
-                    Settings
-                  }[item.icon as keyof typeof import("lucide-react")];
+                  const Icon = ICONS[item.icon]
 
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
                       className="flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700/50 transition-colors duration-200"
                     >
                       {Icon && <Icon className="w-5 h-5" />}
@@ -458,6 +408,14 @@ export function SmartNavigation() {
                     <BookOpen className="w-5 h-5" />
                     <span>Biblioteca</span>
                   </Link>
+                  <Link href="/battle/survival" className="flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700/50 transition-colors duration-200">
+                    <Shield className="w-5 h-5" />
+                    <span>Survival Mode</span>
+                  </Link>
+                  <Link href="/battle/team-conquest" className="flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700/50 transition-colors duration-200">
+                    <Users className="w-5 h-5" />
+                    <span>Team Conquest</span>
+                  </Link>
                   <Link href="/achievements" className="flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700/50 transition-colors duration-200">
                     <Trophy className="w-5 h-5" />
                     <span>Conquistas</span>
@@ -467,18 +425,7 @@ export function SmartNavigation() {
 
               {/* Mobile Search */}
               <div className="px-2 py-3 border-t border-gray-700/50">
-                <form onSubmit={handleSearch}>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <Input
-                      type="text"
-                      placeholder="Buscar..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400"
-                    />
-                  </div>
-                </form>
+                {/* search removed */}
               </div>
             </motion.div>
           )}

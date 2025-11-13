@@ -259,7 +259,7 @@ export const array = {
 
 // Funções de objeto
 export const object = {
-  pick: <T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> => {
+  pick: <T extends Record<string, any>, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> => {
     const result = {} as Pick<T, K>
     keys.forEach(key => {
       if (key in obj) {
@@ -269,7 +269,7 @@ export const object = {
     return result
   },
   
-  omit: <T, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> => {
+  omit: <T extends Record<string, any>, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> => {
     const result = { ...obj }
     keys.forEach(key => {
       delete result[key]

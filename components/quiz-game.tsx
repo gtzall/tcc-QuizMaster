@@ -167,12 +167,17 @@ export function QuizGame({ config, onFinish, onBack, useApi = false }: QuizGameP
     const load = async () => {
       if (useApi) {
         try {
+          const getUsedIds = () => {
+            try { return JSON.parse(localStorage.getItem('usedQuestionIds') || '[]') as string[] } catch { return [] }
+          }
+          const usedIds = getUsedIds()
           const diffKey = (config.difficulty === 'facil' || config.difficulty === 'medio' || config.difficulty === 'dificil')
             ? config.difficulty
             : (config.difficulty === 'easy' ? 'facil' : config.difficulty === 'medium' ? 'medio' : 'dificil')
           const params = new URLSearchParams()
           if (config.subject) params.set('subject', config.subject)
           if (diffKey) params.set('difficulty', diffKey)
+          if (usedIds.length) params.set('exclude', usedIds.join(','))
           const res = await fetch(`/api/questions?${params.toString()}`)
           const data = await res.json()
           const pool = Array.isArray(data[diffKey]) ? data[diffKey] : []
@@ -180,7 +185,7 @@ export function QuizGame({ config, onFinish, onBack, useApi = false }: QuizGameP
           const shuffled = [...pool].sort(() => 0.5 - Math.random())
           const picked = shuffled.slice(0, config.questionCount)
           const mapped: Question[] = picked.map((q: any, idx: number) => ({
-            id: `api-${diffKey}-${idx}`,
+            id: String(q.id ?? `api-${diffKey}-${idx}`),
             text: q.enunciado,
             options: q.alternativas,
             correctAnswer: q.respostaCorreta,
@@ -304,6 +309,11 @@ export function QuizGame({ config, onFinish, onBack, useApi = false }: QuizGameP
     }
 
     setQuizState(prev => ({ ...prev, isFinished: true, endTime }))
+    try {
+      const used = new Set<string>((JSON.parse(localStorage.getItem('usedQuestionIds') || '[]') as string[]))
+      questions.forEach(q => used.add(String(q.id)))
+      localStorage.setItem('usedQuestionIds', JSON.stringify(Array.from(used)))
+    } catch {}
     onFinish(results)
   }
 

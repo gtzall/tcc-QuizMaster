@@ -11,17 +11,28 @@ export function initializeGame(options: GameOptions) {
   // Game state
   let currentQuestions: any[] = []
   let currentQuestionIndex = 0
-  let player = {
+  let player: {
+    name: string
+    score: number
+    level: number
+    correctAnswers: number
+    wrongAnswers: number
+    questionsAnswered: number
+    answeredCorrectly: any[]
+    answeredIncorrectly: any[]
+    lastErrors: number
+    achievements: string[]
+  } = {
     name: "",
     score: 0,
     level: 1,
     correctAnswers: 0,
     wrongAnswers: 0,
     questionsAnswered: 0,
-    answeredCorrectly: [],
-    answeredIncorrectly: [],
+    answeredCorrectly: [] as any[],
+    answeredIncorrectly: [] as any[],
     lastErrors: 0,
-    achievements: [],
+    achievements: [] as string[],
   }
 
   // Achievements list

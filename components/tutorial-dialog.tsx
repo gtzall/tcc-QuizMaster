@@ -81,7 +81,6 @@ export default function TutorialDialog({ open, onOpenChange, isOpen: externalIsO
       title: "Revisando Resultados",
       description:
         "Após completar um quiz, revise seu desempenho, veja quais conquistas você desbloqueou e identifique áreas para melhorar.",
-      image: "📝  veja quais conquistas você desbloqueou e identifique áreas para melhorar.",
       image: "📝",
     },
     {
