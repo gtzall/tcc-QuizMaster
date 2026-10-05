@@ -1,367 +1,449 @@
-# 🎯 QuizMaster - Plataforma de Quiz Educacional Interativa
+QuizMaster
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.2.4-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.17-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+Plataforma web de quizzes voltada para estudos e preparação para provas. O projeto permite responder questões, acompanhar o desempenho, utilizar diferentes temas visuais e consultar conquistas e estatísticas.
 
-> Transforme sua preparação para provas em uma experiência gamificada e envolvente. Aprenda, pratique e domine qualquer matéria com nossa plataforma interativa e inteligente.
+Sobre o projeto
 
-## ✨ Características Principais
+O QuizMaster foi desenvolvido com foco em uma experiência simples e interativa de estudos. A plataforma reúne questões de diferentes temas e níveis de dificuldade, permitindo que o usuário acompanhe seu progresso durante os estudos.
 
-- 🎮 **Sistema de Quiz Interativo** - Questões dinâmicas com feedback imediato
-- 🏆 **Sistema de Conquistas** - Desbloqueie badges e conquistas conforme progride
-- 📊 **Estatísticas Detalhadas** - Acompanhe seu progresso com gráficos e análises
-- 🌈 **Temas Personalizáveis** - 7 temas únicos para personalizar sua experiência
-- 📱 **Design Responsivo** - Funciona perfeitamente em todos os dispositivos
-- ⚡ **Performance Otimizada** - Carregamento rápido e experiência fluida
-- 🔒 **PWA Ready** - Instale como aplicativo no seu dispositivo
-- ♿ **Acessibilidade** - Suporte completo para tecnologias assistivas
+Entre os principais recursos estão:
 
-## 🚀 Tecnologias Utilizadas
+Sistema de quizzes com diferentes níveis de dificuldade
 
-### Frontend
-- **Next.js 15** - Framework React com renderização híbrida
-- **React 19** - Biblioteca para interfaces de usuário
-- **TypeScript 5** - JavaScript tipado para desenvolvimento robusto
-- **Tailwind CSS 3** - Framework CSS utilitário
-- **Framer Motion** - Biblioteca de animações
-- **Radix UI** - Componentes acessíveis e customizáveis
+Modo de estudos com configuração personalizada
 
-### Estado e Dados
-- **React Context** - Gerenciamento de estado global
-- **LocalStorage** - Persistência de dados local
-- **Zod** - Validação de esquemas
+Feedback após responder às questões
 
-### Ferramentas de Desenvolvimento
-- **ESLint** - Linting de código
-- **Prettier** - Formatação de código
-- **Husky** - Git hooks
-- **Commitlint** - Padrões de commit
+Estatísticas de desempenho
 
-## 📁 Estrutura do Projeto
+Sistema de conquistas
 
-```
-tcc-v4-main/
-├── app/                    # App Router do Next.js 13+
-│   ├── (auth)/            # Rotas de autenticação
-│   ├── api/               # API Routes
-│   ├── dashboard/         # Dashboard do usuário
-│   ├── game/              # Página do jogo
-│   ├── globals.css        # Estilos globais
-│   ├── layout.tsx         # Layout raiz
-│   └── page.tsx           # Página inicial
-├── components/            # Componentes React reutilizáveis
-│   ├── ui/               # Componentes de UI base
-│   ├── game/             # Componentes específicos do jogo
-│   └── layout/           # Componentes de layout
-├── contexts/             # Contextos React
-├── hooks/                # Hooks customizados
-├── lib/                  # Utilitários e configurações
-├── public/               # Arquivos estáticos
-├── styles/               # Estilos adicionais
-└── types/                # Definições de tipos TypeScript
-```
+Diferentes temas visuais
 
-## 🎨 Temas Disponíveis
+Interface responsiva
 
-1. **Cyberpunk** - Futurista com tons de ciano e rosa
-2. **Space** - Espacial com azul e roxo
-3. **Ocean** - Oceânico com ciano e azul
-4. **Forest** - Florestal com verde e esmeralda
-5. **Desert** - Desértico com amarelo e laranja
-6. **Volcano** - Vulcânico com vermelho e laranja
-7. **Aurora** - Aurora boreal com verde, azul e roxo
+Suporte a PWA
 
-## 🎯 Sistema de Conquistas
+Recursos de acessibilidade
 
-### Categorias
-- **Quiz** - Conquistas relacionadas aos quizzes
-- **Streak** - Conquistas de consistência
-- **Social** - Conquistas de interação social
-- **Mastery** - Conquistas de domínio
-- **Speed** - Conquistas de velocidade
-- **Help** - Conquistas de ajuda
-- **Demo** - Conquistas do modo demo
+Novidades
+Setembro de 2025
 
-### Raridades
-- **Common** - Conquistas comuns
-- **Rare** - Conquistas raras
-- **Epic** - Conquistas épicas
-- **Legendary** - Conquistas lendárias
+Adicionadas 25 novas questões, totalizando mais de 55 questões disponíveis.
 
-## 🚀 Como Executar
+Criada uma nova categoria de dificuldade: Muito Difícil.
 
-### Pré-requisitos
-- Node.js 18+ 
-- npm, yarn ou pnpm
+Expansão do conteúdo para mais de 20 temas.
 
-### Instalação
+Criado o Modo Estudos, com seleção de dificuldade e tema.
 
-1. **Clone o repositório**
-   ```bash
-   git clone https://github.com/seu-usuario/quizmaster.git
-   cd quizmaster
-   ```
+Adicionado cronômetro durante os estudos.
 
-2. **Instale as dependências**
-   ```bash
-   npm install
-   # ou
-   yarn install
-   # ou
-   pnpm install
-   ```
+Adicionadas estatísticas em tempo real.
 
-3. **Execute o projeto**
-   ```bash
-   npm run dev
-   # ou
-   yarn dev
-   # ou
-   pnpm dev
-   ```
+Criado um relatório com o resultado ao finalizar uma sessão de estudos.
 
-4. **Acesse no navegador**
-   ```
-   http://localhost:3000
-   ```
+Reorganizada a barra de navegação.
 
-### Scripts Disponíveis
+Adicionados badges para destacar algumas funcionalidades.
 
-```bash
-npm run dev          # Desenvolvimento
-npm run build        # Build de produção
-npm run start        # Servidor de produção
-npm run lint         # Verificação de código
-npm run type-check   # Verificação de tipos
-```
+Melhorada a navegação em dispositivos móveis.
 
-## 🔧 Configuração
+Ajustadas as animações e transições da interface.
 
-### Variáveis de Ambiente
+Tecnologias
+Frontend
 
-Crie um arquivo `.env.local` na raiz do projeto:
+Next.js 15
 
-```env
-# App
+React 19
+
+TypeScript 5
+
+Tailwind CSS 3
+
+Framer Motion
+
+Radix UI
+
+Estado e dados
+
+React Context
+
+LocalStorage
+
+Zod
+
+Ferramentas
+
+ESLint
+
+Prettier
+
+Husky
+
+Commitlint
+
+Estrutura do projeto
+tcc-now/
+├── app/
+│   ├── (auth)/
+│   ├── api/
+│   ├── dashboard/
+│   ├── game/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+│
+├── components/
+│   ├── ui/
+│   ├── game/
+│   └── layout/
+│
+├── contexts/
+├── hooks/
+├── lib/
+├── public/
+├── styles/
+├── types/
+└── README.md
+
+Temas
+
+A aplicação possui sete temas visuais:
+
+Cyberpunk
+
+Space
+
+Ocean
+
+Forest
+
+Desert
+
+Volcano
+
+Aurora
+
+Os temas podem ser utilizados para personalizar a aparência da aplicação durante a utilização da plataforma.
+
+Sistema de conquistas
+
+As conquistas são divididas em diferentes categorias:
+
+Quiz — relacionadas à realização de quizzes
+
+Streak — relacionadas à frequência de estudos
+
+Social — relacionadas a interações sociais
+
+Mastery — relacionadas ao domínio dos conteúdos
+
+Speed — relacionadas ao tempo de resposta
+
+Help — relacionadas a ações de ajuda
+
+Demo — relacionadas ao modo de demonstração
+
+As conquistas possuem quatro níveis de raridade:
+
+Common
+
+Rare
+
+Epic
+
+Legendary
+
+Modo Estudos
+
+O Modo Estudos foi criado para permitir sessões de estudo mais direcionadas.
+
+O usuário pode definir:
+
+Tema das questões
+
+Nível de dificuldade
+
+Quantidade de questões
+
+Tempo de estudo
+
+Durante a sessão, a aplicação apresenta informações sobre o desempenho. Ao finalizar, é exibido um relatório com os resultados obtidos.
+
+Como executar o projeto
+Requisitos
+
+Antes de iniciar, é necessário ter instalado:
+
+Node.js 18 ou superior
+
+npm, yarn ou pnpm
+
+Instalação
+
+Clone o repositório:
+
+git clone https://github.com/seu-usuario/quizmaster.git
+
+
+Entre na pasta:
+
+cd quizmaster
+
+
+Instale as dependências:
+
+npm install
+
+Ambiente de desenvolvimento
+
+Execute:
+
+npm run dev
+
+
+A aplicação estará disponível em:
+
+http://localhost:3000
+
+Scripts
+npm run dev          # Inicia o ambiente de desenvolvimento
+npm run build        # Gera o build de produção
+npm run start        # Inicia o servidor de produção
+npm run lint         # Executa o ESLint
+npm run type-check   # Verifica os tipos do TypeScript
+
+Testes
+
+Caso os scripts de teste estejam configurados no projeto:
+
+npm run test
+npm run test:watch
+npm run test:coverage
+npm run test:e2e
+
+Configuração
+
+Crie um arquivo .env.local na raiz do projeto:
+
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_API_URL=http://localhost:3000/api
 
-# Google
 GOOGLE_SITE_VERIFICATION=your-verification-code
 
-# Analytics (opcional)
 NEXT_PUBLIC_GA_ID=your-ga-id
 NEXT_PUBLIC_GTM_ID=your-gtm-id
-```
 
-### Configurações Personalizadas
 
-As configurações principais estão em `lib/config.ts`:
+As variáveis de Analytics são opcionais.
 
-```typescript
+Configurações da aplicação
+
+As principais configurações ficam em:
+
+lib/config.ts
+
+
+Exemplo:
+
 export const APP_CONFIG = {
   name: "QuizMaster",
   version: "1.0.0",
-  // ... outras configurações
-}
-```
+};
 
-## 📱 PWA (Progressive Web App)
+PWA
 
-O projeto está configurado como PWA com:
+O projeto possui configuração para funcionamento como Progressive Web App.
 
-- ✅ Manifesto web
-- ✅ Service Worker (próximo passo)
-- ✅ Ícones responsivos
-- ✅ Metadados otimizados
-- ✅ Instalação offline
+Entre os recursos previstos estão:
 
-## 🎨 Customização
+Manifesto da aplicação
 
-### Cores e Temas
+Ícones para diferentes dispositivos
 
-As cores dos temas estão definidas em `lib/config.ts`:
+Metadados para instalação
 
-```typescript
+Suporte à instalação como aplicativo
+
+Customização
+Temas
+
+As configurações dos temas ficam em:
+
+lib/config.ts
+
+
+Exemplo:
+
 export const THEME_COLORS = {
   cyberpunk: {
     background: "bg-gradient-to-br from-gray-900 via-purple-900 to-cyan-900",
     primary: "text-cyan-400",
-    // ...
-  }
-}
-```
+  },
+};
 
-### Componentes
+Componentes
 
-Os componentes seguem o padrão de design system com:
+Os componentes seguem uma estrutura baseada em componentes reutilizáveis, com:
 
-- Variantes consistentes
-- Props tipadas
-- Acessibilidade integrada
-- Animações suaves
+Props tipadas
 
-## 🧪 Testes
+Variantes
 
-### Executar Testes
+Componentes de UI reutilizáveis
 
-```bash
-npm run test           # Testes unitários
-npm run test:watch     # Testes em modo watch
-npm run test:coverage  # Cobertura de testes
-npm run test:e2e       # Testes end-to-end
-```
+Recursos de acessibilidade
 
-### Estrutura de Testes
+Animações e transições
 
-```
+Testes
+
+A estrutura de testes segue a organização:
+
 __tests__/
-├── components/        # Testes de componentes
-├── hooks/            # Testes de hooks
-├── utils/            # Testes de utilitários
-└── integration/      # Testes de integração
-```
+├── components/
+├── hooks/
+├── utils/
+└── integration/
 
-## 📊 Performance
 
-### Métricas de Performance
+Os testes podem ser separados entre componentes, hooks, funções utilitárias e integrações.
 
-- **Lighthouse Score**: 95+
-- **First Contentful Paint**: < 1.5s
-- **Largest Contentful Paint**: < 2.5s
-- **Cumulative Layout Shift**: < 0.1
-- **First Input Delay**: < 100ms
+Performance
 
-### Otimizações Implementadas
+Entre as otimizações utilizadas no projeto estão:
 
-- ✅ Lazy loading de componentes
-- ✅ Otimização de imagens
-- ✅ Code splitting automático
-- ✅ Bundle analysis
-- ✅ Tree shaking
-- ✅ Minificação de CSS/JS
+Lazy loading
 
-## 🔒 Segurança
+Otimização de imagens
 
-### Medidas Implementadas
+Code splitting
 
-- ✅ Validação de entrada com Zod
-- ✅ Sanitização de dados
-- ✅ Headers de segurança
-- ✅ CSP (Content Security Policy)
-- ✅ HTTPS enforcement
-- ✅ Rate limiting (API)
+Tree shaking
 
-## 🌐 Internacionalização
+Minificação de CSS e JavaScript
 
-### Idiomas Suportados
+Otimização do bundle
 
-- 🇧🇷 Português (Brasil) - Padrão
-- 🇺🇸 Inglês (próximo)
-- 🇪🇸 Espanhol (próximo)
+Segurança
 
-### Estrutura de Traduções
+O projeto utiliza recursos como:
 
-```
+Validação de dados com Zod
+
+Sanitização de entradas
+
+Headers de segurança
+
+Content Security Policy
+
+HTTPS em produção
+
+Controle de requisições da API
+
+Internacionalização
+
+Atualmente, o idioma principal da aplicação é:
+
+Português (Brasil)
+
+Existe estrutura preparada para futuras traduções:
+
 locales/
 ├── pt-BR/
 │   ├── common.json
 │   ├── game.json
 │   └── achievements.json
+│
 └── en/
     ├── common.json
     ├── game.json
     └── achievements.json
-```
 
-## 📈 Roadmap
+Roadmap
+Versão 1.1
 
-### Versão 1.1 (Próxima)
-- [ ] Sistema de usuários completo
-- [ ] Banco de dados integrado
-- [ ] Sistema de ranking
-- [ ] Modo multiplayer
+ Sistema completo de usuários
 
-### Versão 1.2
-- [ ] App mobile nativo
-- [ ] Inteligência artificial para questões
-- [ ] Sistema de tutoriais
-- [ ] Integração com LMS
+ Integração com banco de dados
 
-### Versão 2.0
-- [ ] Realidade aumentada
-- [ ] Gamificação avançada
-- [ ] Analytics avançado
-- [ ] API pública
+ Sistema de ranking
 
-## 🤝 Contribuindo
+ Modo multiplayer
 
-### Como Contribuir
+Versão 1.2
 
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+ Aplicativo mobile
 
-### Padrões de Código
+ Geração de questões com inteligência artificial
 
-- Use TypeScript para todo novo código
-- Siga o padrão de commits convencionais
-- Mantenha a cobertura de testes acima de 80%
-- Documente APIs e componentes complexos
+ Sistema de tutoriais
 
-### Estrutura de Commits
+ Integração com LMS
 
-```
-feat: adiciona sistema de conquistas
-fix: corrige bug na validação de formulário
-docs: atualiza README
-style: formata código
-refactor: reorganiza estrutura de componentes
-test: adiciona testes para utilitários
+Versão 2.0
+
+ Recursos de realidade aumentada
+
+ Novos recursos de gamificação
+
+ Analytics avançado
+
+ API pública
+
+Contribuição
+
+Para contribuir com o projeto:
+
+Faça um fork do repositório.
+
+Crie uma branch para sua alteração:
+
+git checkout -b feature/minha-feature
+
+
+Faça as alterações.
+
+Realize o commit:
+
+git commit -m "feat: adiciona nova funcionalidade"
+
+
+Envie a branch:
+
+git push origin feature/minha-feature
+
+
+Abra um Pull Request.
+
+Padrão de commits
+
+O projeto utiliza Conventional Commits:
+
+feat: adiciona nova funcionalidade
+fix: corrige problema
+docs: atualiza documentação
+style: ajusta formatação
+refactor: reorganiza código
+test: adiciona testes
 chore: atualiza dependências
-```
 
-## 📄 Licença
+Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+Este projeto está licenciado sob a licença MIT.
 
-## 🙏 Agradecimentos
+Consulte o arquivo LICENSE para mais informações.
 
-- **Next.js Team** - Framework incrível
-- **Tailwind CSS** - Sistema de design utilitário
-- **Radix UI** - Componentes acessíveis
-- **Framer Motion** - Animações fluidas
-- **Comunidade React** - Suporte e inspiração
+Contato
 
-## 📞 Suporte
+Email: contato@quizmaster.com
 
-- **Email**: contato@quizmaster.com
-- **Discord**: [QuizMaster Community](https://discord.gg/quizmaster)
-- **Documentação**: [docs.quizmaster.com](https://docs.quizmaster.com)
-- **Issues**: [GitHub Issues](https://github.com/seu-usuario/quizmaster/issues)
+Discord: QuizMaster Community
 
-## ⭐ Avalie o Projeto
+Documentação: docs.quizmaster.com
 
-Se este projeto te ajudou, considere dar uma ⭐ no GitHub!
+Issues: GitHub Issues
 
----
-
-**Desenvolvido com ❤️ pela equipe QuizMaster**
-
-*Transformando o aprendizado em uma experiência divertida e eficaz*#   t c c - n o w  
- #   t c c - n o w  
- 
-
-## 🆕 Novas Funcionalidades (Setembro de 2025)
-
-- 📚 **CONTEÚDO MASSIVAMENTE EXPANDIDO:** Adicionadas 25 novas questões de alta qualidade, criando uma nova categoria "Muito Difícil" e expandindo para mais de 20 temas diferentes. O sistema agora possui 55+ questões distribuídas em 4 níveis de dificuldade.
-- 🎓 **MODO ESTUDOS DESENVOLVIDO:** Criada uma página completamente nova de estudos com configuração personalizada por dificuldade e tema, cronômetro integrado, estatísticas em tempo real e relatório final detalhado. É uma experiência de aprendizado focada e profissional.
-- 🧭 **BARRA DE NAVEGAÇÃO REORGANIZADA:** A navegação foi completamente reorganizada com 10 itens principais, badges coloridas para destacar funcionalidades, animações suaves e versão mobile responsiva.
-- ✨ **ANIMAÇÕES VERIFICADAS:** Todas as animações estão funcionando perfeitamente com transições suaves e efeitos visuais aprimorados.
-
-
+Desenvolvido pela equipe QuizMaster.
